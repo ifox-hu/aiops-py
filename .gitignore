@@ -44,6 +44,19 @@ poetry.lock
 
 # Environment
 .env.local
+
+# Pages UI files are generated from static/designs/ during deployment.
+docs/designs.css
+docs/workbench-v2.css
+docs/workbench-v2.html
+docs/workbench-v2.js
+docs/incident-v2.css
+docs/incident-v2.html
+docs/incident-v2.js
+docs/knowledge-v2.css
+docs/knowledge-v2.html
+docs/knowledge-v2.js
+docs/LICENSE-JAVA-UI
 *.orig
 deployment/.edge-qa-profile/
 deployment/previews/

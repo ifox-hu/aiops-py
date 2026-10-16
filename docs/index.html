@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Python AIOps 值班工作台演示：告警诊断、故障交接、知识库问答。FastAPI、LangGraph 与 Milvus 的 Python 实现。">
+  <title>Python AIOps · 值班与知识助手</title>
+  <link rel="stylesheet" href="designs.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body class="gallery">
+  <aside class="demo-notice" aria-label="演示模式说明"><strong>Python AIOps · 静态演示</strong><span>无需后端或模型密钥</span><a href="https://github.com/ifox-hu/aiops-py">GitHub 源码与 README ↗</a></aside>
+  <main class="gallery-main">
+    <div class="eyebrow">PYTHON AIOPS / INTERACTIVE DEMO</div>
+    <h1>把告警、排查与交接放进同一张工作台。</h1>
+    <p class="gallery-intro">从活动告警进入诊断，带着日志和知识依据继续深挖，再把处理记录交给下一位值班同事。三页均可交互，无需安装 Python、Docker 或模型服务。</p>
+    <div class="gallery-grid">
+      <a class="gallery-card" href="workbench-v2.html">
+        <div class="mini-preview mini-light"><div class="mini-side"></div><div class="mini-content"><div class="mini-line"></div><div class="mini-stats"><i></i><i></i><i></i></div><div class="mini-panels"><i></i><i></i></div></div></div>
+        <span class="eyebrow">01 / ON-CALL</span><h2>值班工作台</h2>
+        <p>活动告警 · 流式诊断 · 本地诊断历史 · 日志证据 · 上下文追问</p>
+        <span class="gallery-link">进入工作台 <b>↗</b></span>
+      </a>
+      <a class="gallery-card" href="incident-v2.html">
+        <div class="mini-preview mini-dark"><div class="mini-header"></div><div class="mini-content"><div class="mini-line"></div><div class="mini-panels"><i></i><i></i></div><div class="mini-line"></div></div></div>
+        <span class="eyebrow">02 / INCIDENT</span><h2>故障深挖与交接</h2>
+        <p>告警事实 · 候选原因 · 处理时间线 · 交接备注 · Markdown 导出</p>
+        <span class="gallery-link">进入故障深挖 <b>↗</b></span>
+      </a>
+      <a class="gallery-card" href="knowledge-v2.html">
+        <div class="mini-preview mini-warm"><div class="mini-side"></div><div class="mini-content"><div class="mini-line"></div><div class="mini-bubble"></div><div class="mini-bubble short"></div><div class="mini-line"></div></div></div>
+        <span class="eyebrow">03 / KNOWLEDGE</span><h2>知识助手</h2>
+        <p>知识库优先 · 通用问答 · 模拟召回来源 · 文档查看 · 本地会话</p>
+        <span class="gallery-link">进入知识助手 <b>↗</b></span>
+      </a>
+    </div>
+    <p class="gallery-foot">告警、日志、诊断与回答均为浏览器内的模拟数据，上传在演示中禁用。诊断历史和交接备注仅保存在当前浏览器。完整 Python 服务使用 FastAPI、LangChain、LangGraph、Milvus 与独立向量模型。</p>
+  </main>
+</body>
+</html>

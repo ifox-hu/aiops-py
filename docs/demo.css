@@ -1,0 +1,16 @@
+.demo-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  min-height: 36px;
+  padding: 7px 16px;
+  color: #25446d;
+  background: #eaf1ff;
+  border-bottom: 1px solid #cbdaf7;
+  font: 12px/1.6 "Microsoft YaHei", "Segoe UI", sans-serif;
+  text-align: center;
+}
+.demo-notice a { color: #2457e6; text-decoration: underline; }
+.demo-notice strong { font-weight: 650; }

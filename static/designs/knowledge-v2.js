@@ -247,6 +247,7 @@ async function ask(question) {
   } finally {
     state.busy = false;
     $('#kv-send').disabled = false;
+    renderConversation();
   }
 }
 
