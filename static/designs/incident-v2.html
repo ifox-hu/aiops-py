@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>故障深挖与交接 | AIOps 智能运维</title>
+  <link rel="stylesheet" href="workbench-v2.css?v=diagnosis-scroll-3">
+  <link rel="stylesheet" href="incident-v2.css?v=diagnosis-scroll-1">
+</head>
+<body>
+  <div class="v2-shell">
+    <aside class="v2-sidebar">
+      <a class="v2-brand" href="workbench-v2.html">
+        <span class="v2-brand-mark">A</span>
+        <span>AIOps<small>故障深挖</small></span>
+      </a>
+      <nav class="v2-nav" aria-label="主导航">
+        <p class="v2-nav-label">Workspace</p>
+        <a class="v2-nav-item" href="workbench-v2.html"><span>值班总览</span></a>
+        <a class="v2-nav-item active" href="incident-v2.html"><span>故障深挖</span></a>
+        <a class="v2-nav-item" href="knowledge-v2.html"><span>知识助手</span></a>
+      </nav>
+      <div class="v2-shift">
+        <span class="v2-eyebrow">交接状态</span>
+        <strong id="iv-shift-owner">尚未认领</strong>
+        <small>记录处理动作与交接备注，完成后可导出 Markdown 报告。</small>
+      </div>
+    </aside>
+    <div class="v2-workspace">
+      <header class="v2-topbar">
+        <div class="v2-topbar-title">故障深挖与交接 <small>证据 · 处理 · 交接</small></div>
+        <div class="v2-top-actions">
+          <span class="v2-status" id="iv-status">正在连接后端</span>
+          <a class="v2-btn quiet" href="workbench-v2.html">返回工作台</a>
+        </div>
+      </header>
+      <main class="v2-main">
+        <section class="v2-page-head">
+          <div>
+            <p class="v2-eyebrow">INCIDENT / DEEP DIVE</p>
+            <h1 id="iv-title">正在载入故障</h1>
+            <p id="iv-summary">正在读取当前告警，并准备诊断、证据和交接信息。</p>
+          </div>
+          <div class="v2-snapshot" aria-label="故障状态">
+            <span>来源 <strong id="iv-source">—</strong></span>
+            <span>持续时间 <strong id="iv-duration">—</strong></span>
+            <span>状态 <strong id="iv-state">—</strong></span>
+          </div>
+        </section>
+        <div class="iv-layout">
+          <section class="v2-panel iv-main">
+            <div class="iv-head">
+              <div class="iv-head-title">
+                <span class="v2-priority" id="iv-level">—</span>
+                <div>
+                  <h2>故障事实与处理工作区</h2>
+                  <p>本页只处理已经发生的故障，不重复工作台的告警队列。</p>
+                </div>
+              </div>
+              <div class="iv-actions">
+                <button class="v2-btn" type="button" id="iv-claim">认领故障</button>
+                <button class="v2-btn primary" type="button" id="iv-diagnose">开始智能诊断</button>
+                <button class="v2-btn" type="button" id="iv-export">导出交接报告</button>
+              </div>
+            </div>
+            <div class="iv-facts" id="iv-facts">
+              <div class="v2-fact"><small>服务</small><strong>—</strong></div>
+              <div class="v2-fact"><small>实例</small><strong>—</strong></div>
+              <div class="v2-fact"><small>命名空间</small><strong>—</strong></div>
+              <div class="v2-fact"><small>首次触发</small><strong>—</strong></div>
+            </div>
+            <div class="iv-tabs" role="tablist" aria-label="故障深挖工作区">
+              <button class="iv-tab active" type="button" role="tab" aria-selected="true" data-iv-tab="diagnosis">诊断与假设</button>
+              <button class="iv-tab" type="button" role="tab" aria-selected="false" data-iv-tab="evidence">证据链</button>
+              <button class="iv-tab" type="button" role="tab" aria-selected="false" data-iv-tab="handover">处理与交接</button>
+            </div>
+            <div class="iv-pane active" data-iv-pane="diagnosis">
+              <div class="iv-diagnosis-note" id="iv-diagnosis-prompt">
+                <h3>把告警变成可验证的根因假设</h3>
+                <p>诊断会调用当前 Agent 工具链，读取告警并生成 Markdown 报告。报告中的事实、假设和待验证项会分别保留，便于交接时复查。</p>
+                <button class="v2-btn primary" type="button" id="iv-diagnose-inline">诊断当前故障</button>
+              </div>
+              <div class="iv-steps">
+                <div><span>01</span><strong>读取告警事实</strong></div>
+                <div><span>02</span><strong>关联日志与知识</strong></div>
+                <div><span>03</span><strong>输出待验证项</strong></div>
+              </div>
+              <article class="iv-report" id="iv-report" role="status" aria-live="polite"><div class="iv-empty">开始诊断后，报告会显示在这里。</div></article>
+            </div>
+            <div class="iv-pane" data-iv-pane="evidence">
+              <div class="iv-evidence-grid">
+                <article class="iv-evidence"><small>OBSERVED / 观测事实</small><h3>告警接口返回</h3><p id="iv-observed">正在读取告警事实…</p></article>
+                <article class="iv-evidence"><small>CANDIDATE / 候选原因</small><h3>告警描述中的可能原因</h3><p id="iv-candidate">正在读取候选原因…</p></article>
+                <article class="iv-evidence"><small>PENDING / 待验证项</small><h3>不能用现有数据直接确认</h3><p>影响范围、最近变更、锁等待或实例指标需要现场核验。诊断报告只把已有工具返回作为依据。</p></article>
+              </div>
+              <div class="iv-subhead"><div><h3>关联日志</h3><p id="iv-log-source">来自后端日志工具</p></div><button class="v2-btn" type="button" id="iv-refresh-logs">重新查询</button></div>
+              <div class="iv-log" id="iv-log"><div class="iv-empty">切换到证据链时自动加载</div></div>
+              <div class="iv-subhead"><div><h3>知识依据</h3><p>按告警类型匹配现有知识库文档</p></div></div>
+              <div class="iv-sources" id="iv-sources"><div class="iv-empty">正在读取知识库文档…</div></div>
+            </div>
+            <div class="iv-pane" data-iv-pane="handover">
+              <div class="iv-handover-grid">
+                <div>
+                  <div class="iv-subhead"><div><h3>处理记录</h3><p>只记录本页实际添加的动作</p></div><button class="v2-btn" type="button" id="iv-add-note">添加记录</button></div>
+                  <form class="iv-note-form" id="iv-note-form" hidden><textarea name="note" maxlength="300" aria-label="处理记录" placeholder="例如：已确认实例 CPU 持续高于 90%，等待进一步核对部署记录。"></textarea><button class="v2-btn primary" type="submit">保存记录</button></form>
+                  <div class="iv-timeline" id="iv-timeline"><div class="iv-empty">尚未添加处理记录。</div></div>
+                </div>
+                <div>
+                  <div class="iv-subhead"><div><h3>交接备注</h3><p>下一班次需要知道的事实和下一步</p></div></div>
+                  <textarea class="iv-handover-note" id="iv-handover-note" maxlength="800" placeholder="填写影响范围、已完成动作、待验证项和建议下一步。"></textarea>
+                  <button class="v2-btn" type="button" id="iv-save-handover">保存交接备注</button>
+                  <div class="iv-handover-summary" id="iv-handover-summary"><small>REPORT PREVIEW</small><p>导出时会合并告警事实、诊断报告、知识依据和处理记录。</p></div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <aside class="iv-side">
+            <section class="v2-panel iv-side-panel">
+              <div class="v2-panel-head"><div><h2>当前故障</h2><p>来自工作台选中的告警</p></div><span class="v2-eyebrow">LIVE</span></div>
+              <div class="iv-selected"><strong id="iv-selected-title">正在载入…</strong><span id="iv-selected-level" class="v2-priority">—</span><p id="iv-selected-service">—</p></div>
+              <dl class="iv-meta">
+                <div><dt>告警名称</dt><dd id="iv-meta-alert">—</dd></div>
+                <div><dt>实例</dt><dd id="iv-meta-instance">—</dd></div>
+                <div><dt>首次触发</dt><dd id="iv-meta-time">—</dd></div>
+                <div><dt>持续时间</dt><dd id="iv-meta-duration">—</dd></div>
+              </dl>
+            </section>
+            <section class="v2-panel iv-side-panel">
+              <div class="v2-panel-head"><div><h2>交接检查</h2><p>导出前确认三项内容</p></div></div>
+              <ul class="iv-checklist">
+                <li id="iv-check-diagnosis"><span></span>已生成诊断报告</li>
+                <li id="iv-check-note"><span></span>已添加处理记录</li>
+                <li id="iv-check-handover"><span></span>已保存交接备注</li>
+              </ul>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="incident-v2.js?v=20261015c"></script>
+</body>
+</html>

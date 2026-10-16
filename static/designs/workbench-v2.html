@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>值班工作台 | AIOps 智能运维</title>
+  <link rel="stylesheet" href="workbench-v2.css?v=diagnosis-scroll-3">
+</head>
+<body>
+  <div class="v2-shell">
+    <aside class="v2-sidebar">
+      <a class="v2-brand" href="workbench-v2.html">
+        <span class="v2-brand-mark">A</span>
+        <span>AIOps<small>值班工作台</small></span>
+      </a>
+      <nav class="v2-nav" aria-label="主导航">
+        <p class="v2-nav-label">Workspace</p>
+        <a class="v2-nav-item active" href="workbench-v2.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
+          <span>值班总览</span>
+        </a>
+        <a class="v2-nav-item" href="incident-v2.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h5l3-8 4 16 3-8h5"></path></svg>
+          <span>故障深挖</span>
+        </a>
+        <a class="v2-nav-item" href="knowledge-v2.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v15M12 5C9 3 5 3 3 4v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 1Z"></path></svg>
+          <span>知识助手</span>
+        </a>
+      </nav>
+      <div class="v2-shift">
+        <span class="v2-eyebrow">当班</span>
+        <strong>基础架构组 · 张晓</strong>
+        <small>20:00 - 08:00<br>默认按持续时间排序</small>
+      </div>
+    </aside>
+
+    <div class="v2-workspace">
+      <header class="v2-topbar">
+        <div class="v2-topbar-title">值班总览 <small>活动告警 · 同屏诊断</small></div>
+        <div class="v2-top-actions">
+          <span class="v2-status" id="v2-status">正在连接后端</span>
+          <button class="v2-btn quiet" type="button" id="v2-refresh">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2 5.5"></path><path d="M20 4v7h-7"></path></svg>
+            刷新
+          </button>
+        </div>
+      </header>
+
+      <main class="v2-main">
+        <section class="v2-page-head">
+          <div>
+            <p class="v2-eyebrow">ON-CALL / ACTIVE INCIDENTS</p>
+            <h1>先处置，再解释。</h1>
+            <p>所有活动告警按触发时间排列，选中后无需跳页即可完成诊断、查日志、看依据和追问。</p>
+          </div>
+          <div class="v2-snapshot" aria-label="当前状态">
+            <span>活动告警 <strong id="v2-count">—</strong></span>
+            <span>数据源 <strong id="v2-source">—</strong></span>
+            <span>最近更新 <strong id="v2-updated">—</strong></span>
+          </div>
+        </section>
+
+        <div class="v2-workgrid">
+          <section class="v2-panel v2-queue-panel">
+            <div class="v2-panel-head">
+              <div>
+                <h2>活动告警</h2>
+                <p>按持续时间排序，最久的排在最前</p>
+              </div>
+              <span class="v2-live" id="v2-live-count">—</span>
+            </div>
+            <div class="v2-queue-filters" role="group" aria-label="告警过滤">
+              <button class="v2-filter active" type="button" data-filter="all">全部</button>
+              <button class="v2-filter" type="button" data-filter="long">超过 20 分钟</button>
+              <button class="v2-filter" type="button" data-filter="recent">15 分钟内</button>
+            </div>
+            <div class="v2-alert-list" id="v2-alert-list" role="list">
+              <div class="v2-empty">正在加载告警…</div>
+            </div>
+            <div class="v2-queue-foot" id="v2-queue-foot">等待后端返回活动告警</div>
+          </section>
+
+          <section class="v2-panel v2-focus" id="v2-focus">
+            <div class="v2-focus-head">
+              <div class="v2-focus-title">
+                <span class="v2-priority p1" id="v2-focus-level">—</span>
+                <div>
+                  <h2 id="v2-focus-title">正在加载</h2>
+                  <p id="v2-focus-desc">请稍候，正在读取活动告警。</p>
+                </div>
+              </div>
+              <div class="v2-focus-actions">
+                <button class="v2-btn" type="button" id="v2-claim">认领</button>
+                <button class="v2-btn" type="button" id="v2-detail">进入故障深挖</button>
+                <button class="v2-btn" type="button" id="v2-export">导出报告</button>
+                <button class="v2-btn primary" type="button" id="v2-diagnose">开始智能诊断</button>
+              </div>
+            </div>
+
+            <div class="v2-facts">
+              <div class="v2-fact"><small>服务</small><strong id="v2-fact-service">—</strong></div>
+              <div class="v2-fact"><small>实例</small><strong id="v2-fact-instance">—</strong></div>
+              <div class="v2-fact"><small>首次触发</small><strong id="v2-fact-time">—</strong></div>
+              <div class="v2-fact"><small>持续时间</small><strong id="v2-fact-duration">—</strong></div>
+            </div>
+
+            <div class="v2-tabs" role="tablist" aria-label="告警工作区">
+              <button class="v2-tab active" type="button" role="tab" aria-selected="true" data-tab="diagnosis">诊断</button>
+              <button class="v2-tab" type="button" role="tab" aria-selected="false" data-tab="evidence">证据</button>
+              <button class="v2-tab" type="button" role="tab" aria-selected="false" data-tab="logs">日志</button>
+              <button class="v2-tab" type="button" role="tab" aria-selected="false" data-tab="knowledge">知识依据</button>
+            </div>
+
+            <div class="v2-tab-pane active" data-pane="diagnosis">
+              <div class="v2-action-prompt" id="v2-diagnosis-prompt">
+                <h3>从阅读告警到生成可执行报告</h3>
+                <p>诊断会调用当前 Agent 工具链，查询告警、日志和知识库后给出根因假设、证据和排查建议。结果保留在本页，不弹窗、不跳页。</p>
+                <button class="v2-btn primary" type="button" id="v2-diagnose-inline">开始诊断当前告警</button>
+              </div>
+              <div class="v2-steps" id="v2-diagnosis-steps">
+                <div class="v2-step"><span>STEP 01</span><strong>读取告警与时间窗口</strong></div>
+                <div class="v2-step"><span>STEP 02</span><strong>关联日志与慢查询</strong></div>
+                <div class="v2-step"><span>STEP 03</span><strong>检索知识库并给出建议</strong></div>
+              </div>
+              <div class="v2-report" id="v2-report" role="status" aria-live="polite"></div>
+
+              <section class="v2-history">
+                <div class="v2-history-head">
+                  <h3>诊断历史</h3>
+                  <p>按告警保留最近一次诊断，保存在本浏览器</p>
+                </div>
+                <div class="v2-source-list" id="v2-diagnosis-history"><div class="v2-empty">尚未生成诊断报告</div></div>
+              </section>
+            </div>
+
+            <div class="v2-tab-pane" data-pane="evidence">
+              <div class="v2-evidence-list" id="v2-evidence-list">
+                <div class="v2-empty">选中告警后显示结构化事实与待验证项</div>
+              </div>
+            </div>
+
+            <div class="v2-tab-pane" data-pane="logs">
+              <div class="v2-evidence" style="margin-bottom:10px">
+                <small>LOG SOURCE</small>
+                <strong>application-logs · ap-guangzhou</strong>
+                <p>来自后端日志工具。当前本地环境为模拟日志，接入真实 CLS 后返回真实日志。</p>
+              </div>
+              <div class="v2-log" id="v2-log">
+                <div class="v2-empty">切换到日志页签时自动加载</div>
+              </div>
+            </div>
+
+            <div class="v2-tab-pane" data-pane="knowledge">
+              <div class="v2-source-list" id="v2-source-list">
+                <div class="v2-empty">正在读取知识库文档…</div>
+              </div>
+            </div>
+          </section>
+
+          <aside class="v2-panel v2-assistant">
+            <div class="v2-panel-head">
+              <div>
+                <h2>值班助手</h2>
+                <p>带着当前告警上下文追问</p>
+              </div>
+              <span class="v2-eyebrow">RAG</span>
+            </div>
+            <div class="v2-context">
+              当前上下文
+              <strong id="v2-context-title">尚未选择告警</strong>
+            </div>
+            <div class="v2-chat" id="v2-chat" aria-live="polite">
+              <div class="v2-message assistant">选中一条告警后，可以直接追问根因、验证方式或处置顺序。助手会携带当前告警作为上下文。</div>
+            </div>
+            <form class="v2-composer" id="v2-form">
+              <textarea name="question" aria-label="输入追问" placeholder="例如：这个告警应该先验证什么？" maxlength="1000"></textarea>
+              <div class="v2-composer-bar">
+                <small>知识库优先 · 未命中时使用通用知识</small>
+                <button class="v2-btn primary" type="submit" id="v2-send">发送</button>
+              </div>
+            </form>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="workbench-v2.js?v=20261015c"></script>
+</body>
+</html>

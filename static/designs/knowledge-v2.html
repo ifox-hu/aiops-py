@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>知识助手 | AIOps 智能运维</title>
+  <link rel="stylesheet" href="workbench-v2.css?v=diagnosis-scroll-3">
+  <link rel="stylesheet" href="knowledge-v2.css">
+</head>
+<body>
+  <div class="v2-shell">
+    <aside class="v2-sidebar">
+      <a class="v2-brand" href="workbench-v2.html">
+        <span class="v2-brand-mark">A</span>
+        <span>AIOps<small>知识助手</small></span>
+      </a>
+      <nav class="v2-nav" aria-label="主导航">
+        <p class="v2-nav-label">Workspace</p>
+        <a class="v2-nav-item" href="workbench-v2.html"><span>值班总览</span></a>
+        <a class="v2-nav-item" href="incident-v2.html"><span>故障深挖</span></a>
+        <a class="v2-nav-item active" href="knowledge-v2.html"><span>知识助手</span></a>
+      </nav>
+      <div class="v2-shift">
+        <span class="v2-eyebrow">知识库</span>
+        <strong id="kv-doc-count">— 篇文档</strong>
+        <small>知识库优先会显示实际召回片段；通用问答不会检索知识库。</small>
+      </div>
+    </aside>
+    <div class="v2-workspace">
+      <header class="v2-topbar">
+        <div class="v2-topbar-title">知识助手 <small>知识库优先 · 通用问答</small></div>
+        <div class="v2-top-actions">
+          <span class="v2-status" id="kv-status">正在连接后端</span>
+          <button class="v2-btn quiet" type="button" id="kv-new-chat">新建会话</button>
+        </div>
+      </header>
+      <main class="v2-main kv-main">
+        <section class="v2-page-head">
+          <div>
+            <p class="v2-eyebrow">KNOWLEDGE / GROUNDED ANSWERS</p>
+            <h1>先找依据，再给答案。</h1>
+            <p>知识库优先模式会先检索已上传文档，再结合召回片段回答；通用问答不检索知识库，并会明确提示。</p>
+          </div>
+          <div class="v2-snapshot">
+            <span>当前模式 <strong id="kv-mode-label">知识库优先</strong></span>
+            <span>已上传 <strong id="kv-doc-count-head">—</strong></span>
+          </div>
+        </section>
+        <div class="kv-layout">
+          <section class="v2-panel kv-chat-panel">
+            <div class="kv-chat-head">
+              <div><h2>对话</h2><p id="kv-chat-context">已检索内容会出现在答案下方</p></div>
+              <div class="kv-mode-switch" role="group" aria-label="回答模式">
+                <button class="active" type="button" data-kv-mode="knowledge" aria-pressed="true">知识库优先</button>
+                <button type="button" data-kv-mode="general" aria-pressed="false">通用问答</button>
+              </div>
+            </div>
+            <div class="kv-chat" id="kv-chat" aria-live="polite">
+              <div class="kv-welcome">
+                <div class="kv-welcome-mark">AI</div>
+                <div><h3>运维知识问答</h3><p>可以问“CPU 持续过高怎么排查”，也可以问“什么是连接池”。知识库优先模式会告诉你答案依据来自哪些片段。</p></div>
+              </div>
+            </div>
+            <div class="kv-suggestions" id="kv-suggestions">
+              <button type="button" data-kv-prompt="CPU 使用率持续过高时，应该先检查什么？">CPU 持续过高先查什么</button>
+              <button type="button" data-kv-prompt="服务响应变慢时要怎么排查？">响应变慢怎么排查</button>
+              <button type="button" data-kv-prompt="什么是连接池？">解释通用概念</button>
+            </div>
+            <form class="kv-composer" id="kv-form">
+              <textarea name="question" maxlength="1000" aria-label="输入问题" placeholder="输入运维问题，或补充日志、现象和上下文…"></textarea>
+              <div class="kv-composer-foot"><small id="kv-composer-note">基于实际检索内容生成 · 请结合现场证据核验</small><button class="v2-btn primary" type="submit" id="kv-send">发送</button></div>
+            </form>
+          </section>
+          <aside class="kv-side">
+            <section class="v2-panel kv-panel">
+              <div class="v2-panel-head"><div><h2>本次召回来源</h2><p id="kv-source-summary">等待提问</p></div><span class="v2-eyebrow">RAG</span></div>
+              <div class="kv-source-list" id="kv-sources"><div class="kv-empty">知识库优先模式下，发送问题后显示实际召回片段。</div></div>
+            </section>
+            <section class="v2-panel kv-panel">
+              <div class="v2-panel-head"><div><h2>知识文档</h2><p id="kv-doc-status">正在读取文档列表</p></div><button class="v2-btn" type="button" id="kv-upload">上传文档</button></div>
+              <div class="kv-filter"><input id="kv-filter-input" type="search" placeholder="按文件名筛选" aria-label="按文件名筛选文档"></div>
+              <div class="kv-doc-list" id="kv-doc-list"><div class="kv-empty">正在加载知识文档…</div></div>
+              <input type="file" id="kv-file" accept=".md,.markdown,.txt" hidden>
+            </section>
+            <section class="v2-panel kv-panel">
+              <div class="v2-panel-head"><div><h2>本地会话</h2><p>当前会话保存在本机浏览器</p></div><button class="v2-btn" type="button" id="kv-clear-history">清空</button></div>
+              <div class="kv-history" id="kv-history"><div class="kv-empty">还没有历史会话。</div></div>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div class="kv-modal" id="kv-modal" hidden>
+    <div class="kv-modal-backdrop" data-kv-close></div>
+    <section class="kv-modal-card" role="dialog" aria-modal="true" aria-labelledby="kv-modal-title">
+      <div class="kv-modal-head"><h2 id="kv-modal-title">内容</h2><button class="v2-btn" type="button" data-kv-close>关闭</button></div>
+      <pre id="kv-modal-body"></pre>
+    </section>
+  </div>
+  <script src="knowledge-v2.js?v=20261015c"></script>
+</body>
+</html>
