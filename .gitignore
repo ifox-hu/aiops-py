@@ -95,10 +95,4 @@ dmypy.json
 .ruff_cache/
 
 .venv/
-volumes/
-uploads/
-logs/
-*.log
-*.egg-info/
 .env
-.env.local

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+<title id="title">AIOps · Python 智能运维平台</title><desc id="desc">从告警诊断、证据追踪到知识问答与故障交接</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#f7faff"/><stop offset="1" stop-color="#eaf2ff"/></linearGradient><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#dbe7f8" stroke-width=".6"/></pattern></defs>
+<rect width="1200" height="300" rx="20" fill="url(#bg)"/><rect x="800" width="400" height="300" fill="url(#grid)"/>
+<path d="M48 48h34" stroke="#2563eb" stroke-width="5" stroke-linecap="round"/>
+<g font-family="Segoe UI,Microsoft YaHei,PingFang SC,sans-serif"><text x="100" y="55" fill="#2563eb" font-size="14" font-weight="700" letter-spacing="2">AIOPS / PYTHON EDITION</text>
+<text x="48" y="132" fill="#14213d" font-size="42" font-weight="700">AIOps · Python 智能运维平台</text>
+<text x="50" y="177" fill="#536581" font-size="20">从告警诊断、证据追踪到知识问答与故障交接</text>
+<rect x="48" y="218" width="700" height="38" rx="8" fill="white" stroke="#d5e2f5"/><text x="65" y="243" fill="#2563eb" font-size="16">FastAPI   /   LangGraph   /   Milvus   /   RAG   /   SSE</text></g>
+<g fill="white" stroke="#c9d9f1" stroke-width="2"><rect x="914" y="54" width="218" height="188" rx="14"/><path d="M914 94h218"/><rect x="934" y="114" width="58" height="45" rx="6" fill="#eff5ff"/><rect x="1004" y="114" width="108" height="45" rx="6" fill="#f6f9ff"/></g>
+<path d="M938 207l30-23 27 9 28-28 28 13 38-27" fill="none" stroke="#2563eb" stroke-width="4" stroke-linejoin="round"/><g fill="#2563eb"><circle cx="968" cy="184" r="4"/><circle cx="1023" cy="165" r="4"/><circle cx="1089" cy="151" r="4"/></g></svg>
